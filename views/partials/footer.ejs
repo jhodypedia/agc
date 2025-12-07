@@ -1,0 +1,20 @@
+<footer class="footer" data-aos="fade-up">
+  <nav class="footer-nav">
+    <a href="/about"><%= lang === 'id' ? 'Tentang' : 'About' %></a>
+    <span>•</span>
+    <a href="/privacy-policy"><%= lang === 'id' ? 'Privasi' : 'Privacy' %></a>
+    <span>•</span>
+    <a href="/terms"><%= lang === 'id' ? 'Syarat' : 'Terms' %></a>
+    <span>•</span>
+    <a href="/dmca">DMCA</a>
+    <span>•</span>
+    <a href="/contact"><%= lang === 'id' ? 'Kontak' : 'Contact' %></a>
+  </nav>
+
+  <p>&copy; <%= new Date().getFullYear() %> StreamingZone. Data by TMDB.</p>
+  <p class="small">
+    <%= lang === 'id'
+      ? 'Situs ini hanya menampilkan informasi dan trailer resmi. Tidak ada film/episode penuh atau link download ilegal yang di-host di domain ini.'
+      : 'This site provides informational pages and official trailers only. No full movies/episodes or illegal download links are hosted on this domain.' %>
+  </p>
+</footer>
