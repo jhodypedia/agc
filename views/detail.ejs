@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="<%= lang === 'id' ? 'id' : 'en' %>">
+<head>
+  <meta charset="UTF-8">
+  <title><%= pageTitle || '' %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="description" content="<%= metaDescription || '' %>">
+  <link rel="canonical" href="<%= canonicalUrl %>">
+
+  <meta property="og:type" content="video.movie">
+  <meta property="og:title" content="<%= pageTitle || '' %>">
+  <meta property="og:description" content="<%= metaDescription || '' %>">
+  <meta property="og:url" content="<%= canonicalUrl %>">
+  <meta property="og:image" content="<%= ogImage %>">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="stylesheet" href="/css/styles.css">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+  <script type="application/ld+json">
+    <%- structuredData %>
+  </script>
+</head>
+<body>
+  <%- include('partials/header') %>
+
+  <main class="main-container detail-page">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/"><i class="ri-home-4-line"></i> <%= lang === 'id' ? 'Beranda' : 'Home' %></a>
+      <span>›</span>
+
+      <% const yearVal = (item.release_date || item.first_air_date || '').slice(0, 4); %>
+      <% if (yearVal) { %>
+        <a href="/year/<%= type %>/<%= yearVal %>">
+          <i class="ri-calendar-line"></i> <%= yearVal %>
+        </a>
+        <span>›</span>
+      <% } %>
+
+      <% if (item.genres && item.genres.length) { 
+           const g = item.genres[0];
+           const gSlug = (g.name || '').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+      %>
+        <a href="/genre/<%= type %>/<%= g.id %>/<%= gSlug %>">
+          <i class="ri-hashtag"></i> <%= g.name %>
+        </a>
+        <span>›</span>
+      <% } %>
+
+      <span class="crumb-current">
+        <%= type === 'movie' ? item.title : item.name %>
+      </span>
+    </nav>
+
+    <div class="detail-main" data-aos="fade-up">
+      <div class="detail-poster">
+        <% if (item.poster_path) { %>
+          <img
+            class="lazy-fade"
+            src="<%= imageBase + item.poster_path %>"
+            loading="lazy"
+            alt="<%= type === 'movie' ? (item.title || 'Movie') : (item.name || 'TV show') %> poster">
+        <% } %>
+      </div>
+
+      <div class="detail-info">
+        <h1>
+          <%= type === 'movie' ? item.title : item.name %>
+          <span class="year">
+            (<%= yearVal %>)
+          </span>
+        </h1>
+        <p class="meta">
+          <i class="ri-star-s-fill"></i> <strong><%= item.vote_average || 'N/A' %></strong>
+          &nbsp; • &nbsp;
+          <i class="ri-fire-line"></i> <%= Math.round(item.popularity || 0) %>
+          &nbsp; • &nbsp;
+          <i class="ri-global-line"></i> <%= item.original_language %>
+        </p>
+
+        <div class="ad ad-inline">
+          <!-- Adsterra high view area -->
+        </div>
+
+        <h2><%= lang === 'id' ? 'Ringkasan' : 'Overview' %></h2>
+        <p><%= item.overview || (lang === 'id' ? 'Ringkasan belum tersedia.' : 'No overview available.') %></p>
+
+        <% if (item.genres && item.genres.length) { %>
+          <p class="genres">
+            <% item.genres.forEach((g) => { 
+                 const gSlug = (g.name || '').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+            %>
+              <a
+                href="/genre/<%= type %>/<%= g.id %>/<%= gSlug %>"
+                class="genre-chip">
+                <i class="ri-hashtag"></i> <%= g.name %>
+              </a>
+            <% }) %>
+          </p>
+        <% } %>
+      </div>
+    </div>
+
+    <section class="player-section" data-aos="fade-up" data-aos-delay="80">
+      <div class="player-left">
+        <div class="ad ad-inline">
+          <!-- Banner above player -->
+        </div>
+
+        <div class="player-wrapper">
+          <% if (trailer && trailer.site === 'YouTube') { %>
+            <iframe
+              src="https://www.youtube.com/embed/<%= trailer.key %>"
+              title="<%= type === 'movie' ? item.title : item.name %> trailer"
+              frameborder="0"
+              allowfullscreen
+              loading="lazy">
+            </iframe>
+          <% } else { %>
+            <div class="no-trailer">
+              <i class="ri-alert-line"></i>
+              <%= lang === 'id'
+                ? 'Trailer belum tersedia. Silakan cek layanan streaming resmi.'
+                : 'Trailer not available. Please check official streaming services.' %>
+            </div>
+          <% } %>
+
+          <div class="ad ad-player-bottom">
+            <!-- Adsterra under player -->
+          </div>
+        </div>
+      </div>
+
+      <aside class="player-sidebar">
+        <div class="ad ad-sidebar" data-aos="fade-left" data-aos-delay="100">
+          <!-- Vertical ad -->
+        </div>
+        <div class="info-box" data-aos="fade-left" data-aos-delay="140">
+          <h3><i class="ri-information-line"></i> Info</h3>
+          <p><strong><%= lang === 'id' ? 'Status' : 'Status' %>:</strong> <%= item.status || '-' %></p>
+          <% if (type === 'tv') { %>
+            <p><strong><%= lang === 'id' ? 'Season' : 'Seasons' %>:</strong> <%= item.number_of_seasons || '-' %></p>
+            <p><strong><%= lang === 'id' ? 'Episode' : 'Episodes' %>:</strong> <%= item.number_of_episodes || '-' %></p>
+          <% } else { %>
+            <p><strong><%= lang === 'id' ? 'Durasi' : 'Runtime' %>:</strong> <%= item.runtime ? item.runtime + ' min' : '-' %></p>
+          <% } %>
+        </div>
+      </aside>
+    </section>
+
+    <% if (item.similar && item.similar.results && item.similar.results.length) { %>
+      <section class="similar-section" data-aos="fade-up" data-aos-delay="120">
+        <h2 class="section-title">
+          <i class="ri-compass-3-line"></i>
+          <%= lang === 'id' ? 'Judul serupa' : 'Similar titles' %>
+        </h2>
+        <div class="grid grid-similar">
+          <% item.similar.results.forEach(sim => {
+               const title = sim.title || sim.name;
+               const poster = sim.poster_path ? imageBase + sim.poster_path : null;
+               const slug = (title || '').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+          %>
+            <a href="/<%= type %>/<%= sim.id %>/<%= slug %>" class="card" data-aos="fade-up" data-aos-delay="130">
+              <% if (poster) { %>
+                <img
+                  class="lazy-fade"
+                  src="<%= poster %>"
+                  loading="lazy"
+                  alt="<%= title %> poster">
+              <% } else { %>
+                <div class="card-no-image">No image</div>
+              <% } %>
+              <div class="card-info">
+                <h3><%= title %></h3>
+                <p class="meta">
+                  <i class="ri-star-fill"></i> <%= sim.vote_average || 'N/A' %> •
+                  <%= (sim.release_date || sim.first_air_date || '').slice(0, 4) %>
+                </p>
+              </div>
+            </a>
+          <% }) %>
+        </div>
+      </section>
+    <% } %>
+  </main>
+
+  <%- include('partials/footer') %>
+
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script src="/js/main.js"></script>
+</body>
+</html>
