@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="<%= lang === 'id' ? 'id' : 'en' %>">
+<head>
+  <meta charset="UTF-8">
+  <title><%= pageTitle || 'StreamingZone' %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="description" content="<%= metaDescription || '' %>">
+  <link rel="canonical" href="<%= canonicalUrl %>">
+
+  <!-- Open Graph / social -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="<%= pageTitle || 'StreamingZone' %>">
+  <meta property="og:description" content="<%= metaDescription || '' %>">
+  <meta property="og:url" content="<%= canonicalUrl %>">
+  <meta property="og:image" content="<%= ogImage %>">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="stylesheet" href="/css/styles.css">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+  <!-- JSON-LD structured data -->
+  <script type="application/ld+json">
+    <%- structuredData %>
+  </script>
+
+  <!-- Adsterra script (isi sendiri) -->
+  <!-- <script async data-cfasync="false" src="https://YOUR_ADSTERRA_SCRIPT.js"></script> -->
+</head>
+<body>
+  <%- include('partials/header') %>
+
+  <div class="ad ad-top" data-aos="fade-up" data-aos-delay="100">
+    <!-- Adsterra top banner -->
+  </div>
+
+  <main class="main-container">
+    <div class="page">
+
+      <!-- QUICK INTERNAL LINKS -->
+      <% if (!searchMode) { %>
+        <section class="quick-links" data-aos="fade-up">
+          <h2 class="section-title">
+            <i class="ri-links-line"></i>
+            <%= lang === 'id'
+              ? 'Jelajahi berdasarkan genre & tahun'
+              : 'Explore by genre & year' %>
+          </h2>
+          <div class="quick-links-grid">
+            <!-- Genres -->
+            <a href="/genre/movie/28/action" class="quick-pill">
+              <i class="ri-flashlight-line"></i>
+              <%= lang === 'id' ? 'Film Aksi' : 'Action Movies' %>
+            </a>
+            <a href="/genre/movie/35/comedy" class="quick-pill">
+              <i class="ri-emotion-laugh-line"></i>
+              <%= lang === 'id' ? 'Film Komedi' : 'Comedy Movies' %>
+            </a>
+            <a href="/genre/movie/18/drama" class="quick-pill">
+              <i class="ri-emoji-sad-line"></i>
+              <%= lang === 'id' ? 'Film Drama' : 'Drama Movies' %>
+            </a>
+            <a href="/genre/movie/27/horror" class="quick-pill">
+              <i class="ri-ghost-line"></i>
+              <%= lang === 'id' ? 'Film Horor' : 'Horror Movies' %>
+            </a>
+            <a href="/genre/movie/878/science-fiction" class="quick-pill">
+              <i class="ri-rocket-2-line"></i>
+              <%= lang === 'id' ? 'Film Sci-Fi' : 'Sci-Fi Movies' %>
+            </a>
+
+            <!-- Years -->
+            <a href="/year/movie/2025" class="quick-pill">
+              <i class="ri-calendar-event-line"></i>
+              <%= lang === 'id' ? 'Film 2025' : 'Movies 2025' %>
+            </a>
+            <a href="/year/movie/2024" class="quick-pill">
+              <i class="ri-calendar-event-line"></i>
+              <%= lang === 'id' ? 'Film 2024' : 'Movies 2024' %>
+            </a>
+            <a href="/year/tv/2025" class="quick-pill">
+              <i class="ri-tv-2-line"></i>
+              <%= lang === 'id' ? 'Serial TV 2025' : 'TV Shows 2025' %>
+            </a>
+            <a href="/year/tv/2024" class="quick-pill">
+              <i class="ri-tv-2-line"></i>
+              <%= lang === 'id' ? 'Serial TV 2024' : 'TV Shows 2024' %>
+            </a>
+          </div>
+        </section>
+      <% } %>
+
+      <% if (searchMode) { %>
+        <!-- SEARCH MODE -->
+        <section data-aos="fade-up">
+          <h1 class="section-title">
+            <i class="ri-search-eye-line"></i>
+            <%= lang === 'id'
+              ? 'Hasil pencarian:'
+              : 'Search results:' %>
+            "<%= searchQuery %>"
+          </h1>
+
+          <div class="ad ad-inline ad-search">
+            <!-- Adsterra search top -->
+          </div>
+
+          <div class="grid" id="gridSearch">
+            <% if (searchResults.length === 0) { %>
+              <p><%= lang === 'id'
+                ? 'Tidak ada hasil ditemukan.'
+                : 'No results found.' %></p>
+            <% } else { %>
+              <% searchResults.forEach(item => { 
+                   const mediaType = item.media_type === 'tv' ? 'tv' : 'movie';
+                   const title = item.title || item.name;
+                   const poster = item.poster_path ? imageBase + item.poster_path : null;
+                   const slug = (title || '').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+              %>
+                <a href="/<%= mediaType %>/<%= item.id %>/<%= slug %>" class="card" data-aos="fade-up" data-aos-delay="50">
+                  <% if (poster) { %>
+                    <img
+                      class="lazy-fade"
+                      src="<%= poster %>"
+                      loading="lazy"
+                      alt="<%= title %> poster">
+                  <% } else { %>
+                    <div class="card-no-image">No image</div>
+                  <% } %>
+                  <div class="card-info">
+                    <h2><%= title %></h2>
+                    <p class="meta">
+                      <i class="ri-star-fill"></i> <%= item.vote_average || 'N/A' %> •
+                      <%= (item.release_date || item.first_air_date || '').slice(0, 4) %>
+                    </p>
+                  </div>
+                </a>
+              <% }) %>
+            <% } %>
+          </div>
+        </section>
+      <% } else { %>
+
+        <!-- TRENDING MOVIES -->
+        <section data-section="trending-movie">
+          <div class="section-header" data-aos="fade-up">
+            <h1 class="section-title">
+              <i class="ri-fire-line"></i>
+              <%= lang === 'id'
+                ? 'Film trending minggu ini'
+                : 'Trending Movies this week' %>
+            </h1>
+            <span class="pill">
+              <%= lang === 'id'
+                ? 'Halaman otomatis'
+                : 'Auto generated content' %>
+            </span>
+          </div>
+
+          <div class="grid" id="gridTrendingMovies">
+            <% trendingMovies.forEach(movie => { 
+                 const title = movie.title || movie.name;
+                 const poster = movie.poster_path ? imageBase + movie.poster_path : null;
+                 const slug = (title || '').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+            %>
+              <a href="/movie/<%= movie.id %>/<%= slug %>" class="card" data-aos="fade-up" data-aos-delay="60">
+                <% if (poster) { %>
+                  <img
+                    class="lazy-fade"
+                    src="<%= poster %>"
+                    loading="lazy"
+                    alt="<%= title %> poster">
+                <% } else { %>
+                  <div class="card-no-image">No image</div>
+                <% } %>
+                <div class="card-info">
+                  <h2><%= title %></h2>
+                  <p class="meta">
+                    <i class="ri-star-fill"></i> <%= movie.vote_average || 'N/A' %> •
+                    <%= (movie.release_date || '').slice(0, 4) %>
+                  </p>
+                </div>
+              </a>
+            <% }) %>
+          </div>
+
+          <div class="skeleton-row" id="skeletonTrendingMovies">
+            <% for (let i = 0; i < 6; i++) { %>
+              <div class="card skeleton-card"></div>
+            <% } %>
+          </div>
+
+          <button
+            class="load-more"
+            data-section="trending-movie"
+            data-target="gridTrendingMovies"
+            data-page="1">
+            <i class="ri-arrow-down-circle-line"></i>
+            <%= lang === 'id'
+              ? 'Muat lebih banyak film trending'
+              : 'Load more trending movies' %>
+          </button>
+        </section>
+
+        <div class="ad ad-inline" data-aos="zoom-in">
+          <!-- Adsterra in-page -->
+        </div>
+
+        <!-- TRENDING TV -->
+        <section data-section="trending-tv">
+          <div class="section-header" data-aos="fade-up">
+            <h2 class="section-title">
+              <i class="ri-tv-2-line"></i>
+              <%= lang === 'id'
+                ? 'Serial TV trending'
+                : 'Trending TV Shows' %>
+            </h2>
+            <span class="pill pill-alt">
+              <%= lang === 'id' ? 'Update mingguan' : 'Weekly refreshed' %>
+            </span>
+          </div>
+
+          <div class="grid" id="gridTrendingTv">
+            <% trendingTv.forEach(tv => { 
+                 const title = tv.name || tv.title;
+                 const poster = tv.poster_path ? imageBase + tv.poster_path : null;
+                 const slug = (title || '').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+            %>
+              <a href="/tv/<%= tv.id %>/<%= slug %>" class="card" data-aos="fade-up" data-aos-delay="60">
+                <% if (poster) { %>
+                  <img
+                    class="lazy-fade"
+                    src="<%= poster %>"
+                    loading="lazy"
+                    alt="<%= title %> poster">
+                <% } else { %>
+                  <div class="card-no-image">No image</div>
+                <% } %>
+                <div class="card-info">
+                  <h2><%= title %></h2>
+                  <p class="meta">
+                    <i class="ri-star-fill"></i> <%= tv.vote_average || 'N/A' %> •
+                    <%= (tv.first_air_date || '').slice(0, 4) %>
+                  </p>
+                </div>
+              </a>
+            <% }) %>
+          </div>
+
+          <div class="skeleton-row" id="skeletonTrendingTv">
+            <% for (let i = 0; i < 6; i++) { %>
+              <div class="card skeleton-card"></div>
+            <% } %>
+          </div>
+
+          <button
+            class="load-more"
+            data-section="trending-tv"
+            data-target="gridTrendingTv"
+            data-page="1">
+            <i class="ri-arrow-down-circle-line"></i>
+            <%= lang === 'id'
+              ? 'Muat lebih banyak serial TV'
+              : 'Load more TV shows' %>
+          </button>
+        </section>
+
+        <!-- POPULAR MOVIES -->
+        <section data-section="popular-movie">
+          <div class="section-header" data-aos="fade-up">
+            <h2 class="section-title">
+              <i class="ri-medal-line"></i>
+              <%= lang === 'id'
+                ? 'Film populer saat ini'
+                : 'Popular Movies right now' %>
+            </h2>
+            <span class="pill pill-soft">
+              <%= lang === 'id'
+                ? 'Judul dengan traffic tinggi'
+                : 'High-traffic titles' %>
+            </span>
+          </div>
+
+          <div class="grid" id="gridPopularMovies">
+            <% popularMovies.forEach(movie => { 
+                 const title = movie.title || movie.name;
+                 const poster = movie.poster_path ? imageBase + movie.poster_path : null;
+                 const slug = (title || '').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+            %>
+              <a href="/movie/<%= movie.id %>/<%= slug %>" class="card" data-aos="fade-up" data-aos-delay="60">
+                <% if (poster) { %>
+                  <img
+                    class="lazy-fade"
+                    src="<%= poster %>"
+                    loading="lazy"
+                    alt="<%= title %> poster">
+                <% } else { %>
+                  <div class="card-no-image">No image</div>
+                <% } %>
+                <div class="card-info">
+                  <h2><%= title %></h2>
+                  <p class="meta">
+                    <i class="ri-star-fill"></i> <%= movie.vote_average || 'N/A' %> •
+                    <%= (movie.release_date || '').slice(0, 4) %>
+                  </p>
+                </div>
+              </a>
+            <% }) %>
+          </div>
+
+          <div class="skeleton-row" id="skeletonPopularMovies">
+            <% for (let i = 0; i < 6; i++) { %>
+              <div class="card skeleton-card"></div>
+            <% } %>
+          </div>
+
+          <button
+            class="load-more"
+            data-section="popular-movie"
+            data-target="gridPopularMovies"
+            data-page="1">
+            <i class="ri-arrow-down-circle-line"></i>
+            <%= lang === 'id'
+              ? 'Muat lebih banyak film populer'
+              : 'Load more popular movies' %>
+          </button>
+        </section>
+      <% } %>
+    </div>
+  </main>
+
+  <div class="ad ad-bottom-sticky">
+    <!-- Adsterra sticky banner -->
+  </div>
+
+  <%- include('partials/footer') %>
+
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script src="/js/main.js"></script>
+</body>
+</html>
