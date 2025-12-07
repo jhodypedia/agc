@@ -1,0 +1,43 @@
+<header class="header">
+  <div class="header-inner" data-aos="fade-down">
+    <a href="/" class="logo">
+      <span class="logo-icon">
+        <i class="ri-play-fill"></i>
+      </span>
+      <span class="logo-text">
+        Pansa<span>Stream</span>
+      </span>
+    </a>
+
+    <form class="search-form" action="/search" method="get">
+      <i class="ri-search-line"></i>
+      <input
+        type="text"
+        name="q"
+        placeholder="<%= lang === 'id'
+          ? 'Cari film, serial TV...'
+          : 'Search movies, TV shows...' %>"
+        value="<%= typeof searchQuery !== 'undefined' ? searchQuery : '' %>"
+        required
+      >
+      <button type="submit" aria-label="Search">
+        <i class="ri-arrow-right-line"></i>
+      </button>
+    </form>
+
+    <div class="lang-switch">
+      <button
+        type="button"
+        class="<%= lang === 'en' ? 'active' : '' %>"
+        data-lang="en">
+        EN
+      </button>
+      <button
+        type="button"
+        class="<%= lang === 'id' ? 'active' : '' %>"
+        data-lang="id">
+        ID
+      </button>
+    </div>
+  </div>
+</header>
