@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="<%= lang === 'id' ? 'id' : 'en' %>">
+<head>
+  <meta charset="UTF-8">
+  <title><%= pageTitle %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="description" content="<%= metaDescription %>">
+  <link rel="canonical" href="<%= canonicalUrl %>">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="<%= pageTitle %>">
+  <meta property="og:description" content="<%= metaDescription %>">
+  <meta property="og:url" content="<%= canonicalUrl %>">
+  <meta property="og:image" content="<%= ogImage %>">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="stylesheet" href="/css/styles.css">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+  <script type="application/ld+json">
+    <%- structuredData %>
+  </script>
+</head>
+<body>
+  <%- include('partials/header') %>
+
+  <main class="main-container static-page">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/"><i class="ri-home-4-line"></i> <%= lang === 'id' ? 'Beranda' : 'Home' %></a>
+      <span>›</span>
+      <span class="crumb-current"><%= lang === 'id' ? 'Tentang' : 'About' %></span>
+    </nav>
+
+    <section class="static-section" data-aos="fade-up">
+      <h1><i class="ri-information-line"></i> <%= lang === 'id' ? 'Tentang StreamingZone' : 'About StreamingZone' %></h1>
+
+      <% if (lang === 'id') { %>
+        <p>
+          StreamingZone adalah situs informasi film dan serial TV yang ringan,
+          dirancang untuk pengalaman menjelajah yang cepat, modern, dan nyaman
+          baik di desktop maupun perangkat mobile.
+        </p>
+        <p>
+          Semua data judul, poster, dan metadata dasar yang ditampilkan di sini
+          diambil dari <strong>The Movie Database (TMDB)</strong>. StreamingZone
+          tidak berafiliasi secara resmi dengan TMDB maupun penyedia layanan
+          streaming mana pun.
+        </p>
+
+        <h2>Apa yang kami sediakan</h2>
+        <ul>
+          <li>Daftar film dan serial TV yang sedang trending.</li>
+          <li>Halaman judul dengan rating, sinopsis, genre, dan tahun rilis.</li>
+          <li>Trailer resmi yang di-embed dari platform video tepercaya.</li>
+          <li>Halaman eksplorasi berdasarkan genre dan tahun rilis.</li>
+        </ul>
+
+        <h2>Apa yang tidak kami sediakan</h2>
+        <ul>
+          <li>Tidak ada hosting film atau episode penuh.</li>
+          <li>Tidak ada link download langsung untuk konten berhak cipta.</li>
+          <li>Tidak ada sistem akun atau pengumpulan data sensitif pengguna.</li>
+        </ul>
+
+        <p>
+          Jika Anda merasa terbantu dengan StreamingZone, silakan bookmark situs ini
+          dan kembali lagi untuk menemukan judul-judul baru yang sedang populer.
+        </p>
+      <% } else { %>
+        <p>
+          StreamingZone is a lightweight movie and TV information website designed
+          for fast browsing, a clean interface, and a smooth experience on both
+          desktop and mobile devices.
+        </p>
+        <p>
+          All title data, artwork and basic metadata displayed here are powered by
+          the <strong>The Movie Database (TMDB)</strong> API. StreamingZone itself
+          is not affiliated with TMDB or any official streaming provider.
+        </p>
+
+        <h2>What we provide</h2>
+        <ul>
+          <li>Trending movies and TV shows updated regularly.</li>
+          <li>Title pages with rating, synopsis, genres and release year.</li>
+          <li>Official trailers embedded from trusted video platforms.</li>
+          <li>Genre and year based discovery pages to explore new content.</li>
+        </ul>
+
+        <h2>What we do not provide</h2>
+        <ul>
+          <li>No hosting of full movies or TV episodes.</li>
+          <li>No direct download links for copyrighted content.</li>
+          <li>No account system or collection of sensitive personal data.</li>
+        </ul>
+
+        <p>
+          If you enjoy using StreamingZone, consider bookmarking the site and
+          visiting regularly to discover new titles as they become popular.
+        </p>
+      <% } %>
+    </section>
+  </main>
+
+  <%- include('partials/footer') %>
+
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script src="/js/main.js"></script>
+</body>
+</html>
