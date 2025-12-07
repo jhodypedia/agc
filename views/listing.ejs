@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="<%= lang === 'id' ? 'id' : 'en' %>">
+<head>
+  <meta charset="UTF-8">
+  <title><%= pageTitle || 'Listing – StreamingZone' %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="description" content="<%= metaDescription || '' %>">
+  <link rel="canonical" href="<%= canonicalUrl %>">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="<%= pageTitle || '' %>">
+  <meta property="og:description" content="<%= metaDescription || '' %>">
+  <meta property="og:url" content="<%= canonicalUrl %>">
+  <meta property="og:image" content="<%= ogImage %>">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="stylesheet" href="/css/styles.css">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+  <script type="application/ld+json">
+    <%- structuredData %>
+  </script>
+</head>
+<body>
+  <%- include('partials/header') %>
+
+  <main class="main-container static-page">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/"><i class="ri-home-4-line"></i> <%= lang === 'id' ? 'Beranda' : 'Home' %></a>
+      <span>›</span>
+      <% if (mode === 'genre') { %>
+        <a href="/genre/<%= mediaType %>/<%= genreId %>/<%= (genreName || '').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'') %>">
+          <i class="ri-hashtag"></i> <%= genreName %>
+        </a>
+      <% } else { %>
+        <a href="/year/<%= mediaType %>/<%= year %>">
+          <i class="ri-calendar-line"></i> <%= year %>
+        </a>
+      <% } %>
+    </nav>
+
+    <section class="static-section" data-aos="fade-up">
+      <div class="section-header">
+        <h1 class="section-title">
+          <% if (mode === 'genre') { %>
+            <i class="ri-hashtag"></i>
+            <%= genreName %>
+            <%= mediaType === 'tv'
+              ? (lang === 'id' ? ' Serial TV' : ' TV Shows')
+              : (lang === 'id' ? ' Film' : ' Movies') %>
+          <% } else { %>
+            <i class="ri-calendar-event-line"></i>
+            <%= mediaType === 'tv'
+              ? (lang === 'id' ? 'Serial TV' : 'TV Shows')
+              : (lang === 'id' ? 'Film' : 'Movies') %>
+            <%= lang === 'id' ? ' tahun ' : ' in ' %>
+            <%= year %>
+          <% } %>
+        </h1>
+        <span class="pill">
+          <%= lang === 'id' ? 'Halaman daftar otomatis' : 'Auto generated listing' %>
+        </span>
+      </div>
+
+      <div class="ad ad-inline" data-aos="zoom-in">
+        <!-- Adsterra in-page -->
+      </div>
+
+      <div class="grid" data-aos="fade-up">
+        <% if (!items || !items.length) { %>
+          <p><%= lang === 'id' ? 'Tidak ada judul ditemukan.' : 'No titles found.' %></p>
+        <% } else { %>
+          <% items.forEach(item => {
+               const title = item.title || item.name;
+               const poster = item.poster_path ? imageBase + item.poster_path : null;
+               const slug = (title || '').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+               const yearLabel = (item.release_date || item.first_air_date || '').slice(0, 4);
+               const href = mediaType === 'tv'
+                 ? `/tv/${item.id}/${slug}`
+                 : `/movie/${item.id}/${slug}`;
+          %>
+            <a href="<%= href %>" class="card">
+              <% if (poster) { %>
+                <img
+                  class="lazy-fade"
+                  src="<%= poster %>"
+                  loading="lazy"
+                  alt="<%= title %> poster">
+              <% } else { %>
+                <div class="card-no-image">No image</div>
+              <% } %>
+              <div class="card-info">
+                <h2><%= title %></h2>
+                <p class="meta">
+                  <i class="ri-star-fill"></i> <%= item.vote_average || 'N/A' %> •
+                  <%= yearLabel %>
+                </p>
+              </div>
+            </a>
+          <% }) %>
+        <% } %>
+      </div>
+
+      <% if (totalPages > 1) { %>
+        <div class="pagination" data-aos="fade-up">
+          <% if (currentPage > 1) { %>
+            <a class="page-link"
+               href="<%= canonicalUrl %>?page=<%= currentPage - 1 %>">
+              <i class="ri-arrow-left-line"></i>
+              <%= lang === 'id' ? 'Sebelumnya' : 'Prev' %>
+            </a>
+          <% } %>
+          <span class="page-current">
+            <%= lang === 'id'
+              ? ('Halaman ' + currentPage + ' dari ' + totalPages)
+              : ('Page ' + currentPage + ' of ' + totalPages) %>
+          </span>
+          <% if (currentPage < totalPages) { %>
+            <a class="page-link"
+               href="<%= canonicalUrl %>?page=<%= currentPage + 1 %>">
+              <%= lang === 'id' ? 'Berikutnya' : 'Next' %>
+              <i class="ri-arrow-right-line"></i>
+            </a>
+          <% } %>
+        </div>
+      <% } %>
+    </section>
+  </main>
+
+  <div class="ad ad-bottom-sticky">
+    <!-- Adsterra sticky -->
+  </div>
+
+  <%- include('partials/footer') %>
+
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script src="/js/main.js"></script>
+</body>
+</html>
