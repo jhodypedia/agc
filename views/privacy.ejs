@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="<%= lang === 'id' ? 'id' : 'en' %>">
+<head>
+  <meta charset="UTF-8">
+  <title><%= pageTitle %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="description" content="<%= metaDescription %>">
+  <link rel="canonical" href="<%= canonicalUrl %>">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="<%= pageTitle %>">
+  <meta property="og:description" content="<%= metaDescription %>">
+  <meta property="og:url" content="<%= canonicalUrl %>">
+  <meta property="og:image" content="<%= ogImage %>">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="stylesheet" href="/css/styles.css">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+  <script type="application/ld+json">
+    <%- structuredData %>
+  </script>
+</head>
+<body>
+  <%- include('partials/header') %>
+
+  <main class="main-container static-page">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/"><i class="ri-home-4-line"></i> <%= lang === 'id' ? 'Beranda' : 'Home' %></a>
+      <span>›</span>
+      <span class="crumb-current"><%= lang === 'id' ? 'Kebijakan Privasi' : 'Privacy Policy' %></span>
+    </nav>
+
+    <section class="static-section" data-aos="fade-up">
+      <h1><i class="ri-shield-keyhole-line"></i> <%= lang === 'id' ? 'Kebijakan Privasi' : 'Privacy Policy' %></h1>
+
+      <% if (lang === 'id') { %>
+        <p>
+          Kebijakan Privasi ini menjelaskan bagaimana StreamingZone mengumpulkan,
+          menggunakan, dan melindungi informasi saat Anda mengunjungi dan
+          menggunakan situs ini.
+        </p>
+
+        <h2>Log & analitik</h2>
+        <p>
+          Seperti banyak situs lainnya, StreamingZone dapat menggunakan log server
+          standar dan alat analitik yang ramah privasi untuk memahami bagaimana
+          pengunjung menggunakan situs. Informasi dapat mencakup alamat IP,
+          jenis browser, halaman perujuk, waktu kunjungan, dan statistik anonim
+          lainnya.
+        </p>
+
+        <h2>Cookies</h2>
+        <p>
+          StreamingZone dan mitra iklan dapat menggunakan cookies atau teknologi
+          serupa untuk:
+        </p>
+        <ul>
+          <li>Mengingat preferensi dasar seperti bahasa atau tampilan.</li>
+          <li>Meningkatkan pengalaman pengguna dan performa situs.</li>
+          <li>Menampilkan iklan yang lebih relevan dan membatasi frekuensi iklan yang sama.</li>
+        </ul>
+        <p>
+          Anda dapat mengatur atau menonaktifkan cookies melalui pengaturan
+          browser. Namun, beberapa bagian situs mungkin tidak berfungsi optimal
+          jika cookies dinonaktifkan.
+        </p>
+
+        <h2>Iklan pihak ketiga</h2>
+        <p>
+          Iklan yang ditampilkan di situs ini dapat disajikan oleh jaringan iklan
+          pihak ketiga. Jaringan tersebut dapat menggunakan cookies dan
+          pengenal lainnya sesuai kebijakan privasi mereka sendiri untuk
+          menayangkan iklan yang relevan.
+        </p>
+
+        <h2>Data pribadi</h2>
+        <p>
+          StreamingZone tidak meminta Anda untuk membuat akun atau mengirim data
+          pribadi sensitif untuk menggunakan situs. Informasi yang dikirim
+          melalui halaman kontak hanya digunakan untuk membalas pesan Anda.
+        </p>
+
+        <h2>Pembaruan kebijakan</h2>
+        <p>
+          Kebijakan Privasi ini dapat diperbarui dari waktu ke waktu. Setiap
+          perubahan akan dipublikasikan di halaman ini dengan tanggal revisi
+          yang diperbarui.
+        </p>
+      <% } else { %>
+        <p>
+          This Privacy Policy explains how StreamingZone collects, uses and
+          protects information when you visit and browse this website.
+        </p>
+
+        <h2>Log files & analytics</h2>
+        <p>
+          Like many websites, StreamingZone may use standard server log files and
+          privacy-friendly analytics tools to understand how visitors use the
+          site. Information may include IP address, browser type, referring
+          pages, time spent on pages and other anonymous usage statistics.
+        </p>
+
+        <h2>Cookies</h2>
+        <p>
+          StreamingZone and its advertising partners may use cookies or similar
+          technologies to:
+        </p>
+        <ul>
+          <li>Remember basic preferences such as language or layout.</li>
+          <li>Improve overall user experience and performance.</li>
+          <li>Serve relevant advertising and limit repeated ads.</li>
+        </ul>
+        <p>
+          You can control or disable cookies through your browser settings.
+          Disabling cookies may affect the functionality of some parts of the
+          website.
+        </p>
+
+        <h2>Third-party advertising</h2>
+        <p>
+          Ads displayed on this site may be served by third-party networks. These
+          networks may use cookies and other identifiers to deliver targeted
+          advertising in accordance with their own privacy policies.
+        </p>
+
+        <h2>Personal data</h2>
+        <p>
+          StreamingZone does not ask you to create an account or submit sensitive
+          personal data in order to use the site. Any information sent via the
+          contact form is used solely to reply to your message.
+        </p>
+
+        <h2>Policy updates</h2>
+        <p>
+          This Privacy Policy may be updated from time to time. Any changes will
+          be posted on this page with an updated revision date.
+        </p>
+      <% } %>
+    </section>
+  </main>
+
+  <%- include('partials/footer') %>
+
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script src="/js/main.js"></script>
+</body>
+</html>
