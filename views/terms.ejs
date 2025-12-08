@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="<%= lang === 'id' ? 'id' : 'en' %>">
+<head>
+  <meta charset="UTF-8">
+  <title><%= pageTitle %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="description" content="<%= metaDescription %>">
+  <link rel="canonical" href="<%= canonicalUrl %>">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="<%= pageTitle %>">
+  <meta property="og:description" content="<%= metaDescription %>">
+  <meta property="og:url" content="<%= canonicalUrl %>">
+  <meta property="og:image" content="<%= ogImage %>">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="stylesheet" href="/css/styles.css">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+  <script type="application/ld+json">
+    <%- structuredData %>
+  </script>
+</head>
+<body>
+  <%- include('partials/header') %>
+
+  <main class="main-container static-page">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/"><i class="ri-home-4-line"></i> <%= lang === 'id' ? 'Beranda' : 'Home' %></a>
+      <span>›</span>
+      <span class="crumb-current"><%= lang === 'id' ? 'Syarat Penggunaan' : 'Terms of Use' %></span>
+    </nav>
+
+    <section class="static-section" data-aos="fade-up">
+      <h1><i class="ri-file-list-3-line"></i> <%= lang === 'id' ? 'Syarat Penggunaan' : 'Terms of Use' %></h1>
+
+      <% if (lang === 'id') { %>
+        <p>
+          Dengan mengakses dan menggunakan StreamingZone, Anda menyetujui
+          untuk terikat dengan Syarat Penggunaan berikut. Jika Anda tidak
+          setuju, harap berhenti menggunakan situs ini.
+        </p>
+
+        <h2>Penggunaan konten</h2>
+        <p>
+          StreamingZone menyediakan halaman informasi tentang film dan serial TV,
+          termasuk metadata, gambar, dan trailer yang bersumber dari pihak
+          ketiga (terutama TMDB dan platform video). Semua merek dagang dan hak
+          cipta adalah milik pemiliknya masing-masing.
+        </p>
+
+        <h2>Tidak menyediakan streaming atau download</h2>
+        <p>
+          StreamingZone tidak meng-host, menyimpan, atau menyediakan film atau
+          episode serial TV secara penuh. Jika ada tautan eksternal, itu hanya
+          untuk tujuan informasi atau referensi.
+        </p>
+
+        <h2>Penggunaan yang diperbolehkan</h2>
+        <p>Saat menggunakan situs ini, Anda setuju untuk tidak:</p>
+        <ul>
+          <li>Mencoba mendapatkan akses tidak sah ke server atau basis data.</li>
+          <li>Melakukan scraping berlebihan atau menyalin konten secara abusif.</li>
+          <li>Menggunakan situs untuk aktivitas ilegal, menyalahgunakan, atau merugikan.</li>
+        </ul>
+
+        <h2>Disclaimer</h2>
+        <p>
+          StreamingZone disediakan apa adanya ("as is") dan sebatas ketersediaan
+          ("as available"). Kami tidak menjamin keakuratan, ketersediaan, atau
+          kesesuaian untuk tujuan tertentu. Konten dapat berubah atau dihapus
+          sewaktu-waktu tanpa pemberitahuan.
+        </p>
+
+        <h2>Perubahan syarat</h2>
+        <p>
+          Syarat Penggunaan ini dapat diperbarui secara berkala. Dengan terus
+          menggunakan StreamingZone setelah perubahan dipublikasikan, Anda
+          dianggap menyetujui syarat yang telah direvisi.
+        </p>
+      <% } else { %>
+        <p>
+          By accessing and using StreamingZone, you agree to be bound by the
+          following terms and conditions. If you do not agree, please discontinue
+          using this website.
+        </p>
+
+        <h2>Use of content</h2>
+        <p>
+          StreamingZone provides informational pages about movies and TV shows,
+          including metadata, images and trailers sourced from third parties
+          (primarily TMDB and video platforms). All trademarks and copyrights
+          belong to their respective owners.
+        </p>
+
+        <h2>No streaming or downloads</h2>
+        <p>
+          StreamingZone does not host, store or provide full-length movies or TV
+          episodes. Any external links, if present, are for informational or
+          reference purposes only.
+        </p>
+
+        <h2>Acceptable use</h2>
+        <p>When using this website, you agree not to:</p>
+        <ul>
+          <li>Attempt to gain unauthorized access to the server or database.</li>
+          <li>Scrape or copy large portions of the site in an abusive way.</li>
+          <li>Use the site for illegal, abusive or harmful activities.</li>
+        </ul>
+
+        <h2>Disclaimer</h2>
+        <p>
+          StreamingZone is provided on an "as is" and "as available" basis. We
+          make no warranties regarding accuracy, availability or fitness for a
+          particular purpose. Content may change or be removed without notice.
+        </p>
+
+        <h2>Changes to these terms</h2>
+        <p>
+          These Terms of Use may be updated periodically. Continued use of
+          StreamingZone after changes have been posted will signify your
+          acceptance of the revised terms.
+        </p>
+      <% } %>
+    </section>
+  </main>
+
+  <%- include('partials/footer') %>
+
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script src="/js/main.js"></script>
+</body>
+</html>
