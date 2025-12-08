@@ -39,7 +39,6 @@ $(function () {
     const rating = item.vote_average != null ? item.vote_average : 'N/A';
     const poster = item.poster_path ? item.poster_path : null;
     const slug = item.slug || '';
-
     const href = `/${mediaType}/${item.id}/${slug}`;
 
     const posterHTML = poster
@@ -60,24 +59,26 @@ $(function () {
   }
 
   // ================================
-  // Load more sections (AGC friendly)
+  // Core load-more handler (manual & auto)
   // ================================
-  $('.load-more').on('click', function () {
-    const $btn = $(this);
+  function triggerLoadMore($btn, isAuto) {
     const section = $btn.data('section'); // trending-movie, trending-tv, popular-movie
     const targetId = $btn.data('target'); // gridTrendingMovies, gridTrendingTv, gridPopularMovies
     let currentPage = Number($btn.data('page') || 1);
 
+    if (!section || !targetId) return;
+    if ($btn.data('loading')) return; // already loading
+
     const $grid = $('#' + targetId);
+    if (!$grid.length) return;
 
     // Skeleton id: "skeleton" + (targetId.replace('grid', ''))
     const skeletonId = 'skeleton' + targetId.replace('grid', '');
     const $skeleton = $('#' + skeletonId);
 
-    if (!section || !$grid.length) return;
-
     // UI state
     const originalHtml = $btn.html();
+    $btn.data('loading', true);
     $btn.prop('disabled', true).html('<i class="ri-loader-4-line ri-spin"></i> Loading...');
     if ($skeleton.length) {
       $skeleton.css('display', 'grid');
@@ -93,7 +94,6 @@ $(function () {
           return;
         }
 
-        // Convert poster_path to full URL if needed (API already gives full URL from server.js)
         const htmlParts = res.results.map(buildCardHTML);
         const $newEls = $(htmlParts.join(''));
 
@@ -118,26 +118,90 @@ $(function () {
           $btn.prop('disabled', false).html(originalHtml);
         }
 
-        // Smooth scroll a bit to show new content
-        const gridOffset = $grid.offset();
-        if (gridOffset) {
-          $('html, body').animate(
-            {
-              scrollTop: gridOffset.top - 80
-            },
-            380
-          );
+        // Smooth scroll hanya untuk klik manual
+        if (!isAuto) {
+          const gridOffset = $grid.offset();
+          if (gridOffset) {
+            $('html, body').animate(
+              {
+                scrollTop: gridOffset.top - 80
+              },
+              380
+            );
+          }
         }
       })
       .fail(function () {
         $btn.prop('disabled', false).html(originalHtml);
       })
       .always(function () {
+        $btn.data('loading', false);
         if ($skeleton.length) {
           $skeleton.hide();
         }
       });
+  }
+
+  // ================================
+  // Klik tombol "Load more"
+  // ================================
+  $('.load-more').on('click', function () {
+    triggerLoadMore($(this), false);
   });
+
+  // ================================
+  // Auto infinite scroll (IntersectionObserver)
+  // ================================
+  function setupAutoLoad() {
+    const buttons = document.querySelectorAll('.load-more');
+    if (!buttons.length) return;
+
+    // Inisialisasi counter auto-load per button
+    $('.load-more').each(function () {
+      const $btn = $(this);
+      if ($btn.data('autoCount') == null) {
+        $btn.data('autoCount', 0);
+      }
+    });
+
+    if (!('IntersectionObserver' in window)) {
+      // Browser lama: skip, manual only
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+
+          const btn = entry.target;
+          const $btn = $(btn);
+
+          if ($btn.prop('disabled')) return;
+          if ($btn.data('loading')) return;
+
+          let autoCount = Number($btn.data('autoCount') || 0);
+          const maxAuto = 3; // max auto-load per section
+
+          if (autoCount >= maxAuto) return;
+
+          autoCount += 1;
+          $btn.data('autoCount', autoCount);
+
+          triggerLoadMore($btn, true);
+        });
+      },
+      {
+        root: null,
+        rootMargin: '0px 0px 120px 0px',
+        threshold: 0.2
+      }
+    );
+
+    buttons.forEach(btn => observer.observe(btn));
+  }
+
+  setupAutoLoad();
 
   // ================================
   // Language switch (auto translate)
@@ -152,12 +216,43 @@ $(function () {
     try {
       const url = new URL(window.location.href);
       url.searchParams.set('lang', lang);
-      // This will hit server, set cookie, and reload page in selected language
       window.location.href = url.toString();
     } catch (e) {
-      // Fallback if URL API not supported
       const separator = window.location.href.indexOf('?') === -1 ? '?' : '&';
-      window.location.href = window.location.href + separator + 'lang=' + encodeURIComponent(lang);
+      window.location.href =
+        window.location.href + separator + 'lang=' + encodeURIComponent(lang);
     }
   });
+
+  // ================================
+  // Scroll-to-top floating button
+  // ================================
+  const $scrollTopBtn = $(
+    '<button id="scrollTopBtn" aria-label="Scroll to top"><i class="ri-arrow-up-line"></i></button>'
+  ).appendTo('body');
+
+  function updateScrollTopBtn() {
+    const y = window.scrollY || window.pageYOffset;
+    if (y > 320) {
+      $scrollTopBtn.addClass('show');
+    } else {
+      $scrollTopBtn.removeClass('show');
+    }
+  }
+
+  $(window).on('scroll', function () {
+    updateScrollTopBtn();
+  });
+
+  $scrollTopBtn.on('click', function () {
+    $('html, body').animate(
+      {
+        scrollTop: 0
+      },
+      450
+    );
+  });
+
+  // initial state
+  updateScrollTopBtn();
 });
