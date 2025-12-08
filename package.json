@@ -1,0 +1,36 @@
+{
+  "name": "streamingzone",
+  "version": "1.0.0",
+  "description": "AGC Streaming Website powered by TMDB, optimized for SEO, Adsterra, auto-translate EN/ID, lazy load, infinite scroll, and fast indexing.",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [
+    "streaming",
+    "tmdb",
+    "movies",
+    "tv-shows",
+    "seo",
+    "agc",
+    "adsterra",
+    "nodejs",
+    "ejs"
+  ],
+  "dependencies": {
+    "axios": "^1.7.2",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "author": "StreamingZone Auto-AGC Generator",
+  "license": "MIT"
+}
