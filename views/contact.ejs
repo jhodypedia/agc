@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="<%= lang === 'id' ? 'id' : 'en' %>">
+<head>
+  <meta charset="UTF-8">
+  <title><%= pageTitle %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="description" content="<%= metaDescription %>">
+  <link rel="canonical" href="<%= canonicalUrl %>">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="<%= pageTitle %>">
+  <meta property="og:description" content="<%= metaDescription %>">
+  <meta property="og:url" content="<%= canonicalUrl %>">
+  <meta property="og:image" content="<%= ogImage %>">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="stylesheet" href="/css/styles.css">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+  <script type="application/ld+json">
+    <%- structuredData %>
+  </script>
+</head>
+<body>
+  <%- include('partials/header') %>
+
+  <main class="main-container static-page">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/"><i class="ri-home-4-line"></i> <%= lang === 'id' ? 'Beranda' : 'Home' %></a>
+      <span>›</span>
+      <span class="crumb-current"><%= lang === 'id' ? 'Kontak' : 'Contact' %></span>
+    </nav>
+
+    <section class="static-section" data-aos="fade-up">
+      <h1><i class="ri-mail-send-line"></i> <%= lang === 'id' ? 'Kontak' : 'Contact' %></h1>
+
+      <% if (lang === 'id') { %>
+        <p>
+          Untuk saran, kerja sama iklan, pengajuan DMCA, atau pertanyaan umum
+          mengenai StreamingZone, Anda dapat menghubungi kami melalui detail
+          di bawah ini.
+        </p>
+      <% } else { %>
+        <p>
+          For feedback, advertising inquiries, DMCA notices or general questions
+          about StreamingZone, you can reach out using the contact details
+          below.
+        </p>
+      <% } %>
+
+      <div class="contact-card">
+        <h2>
+          <i class="ri-customer-service-2-line"></i>
+          <%= lang === 'id' ? 'Detail kontak' : 'Contact details' %>
+        </h2>
+        <ul>
+          <li>
+            <strong>Email:</strong>
+            <span>support@example.com</span>
+            <!-- ganti dengan email kamu -->
+          </li>
+          <li>
+            <strong><%= lang === 'id' ? 'Subjek untuk DMCA:' : 'Subject for DMCA:' %></strong>
+            <span>"DMCA Request – StreamingZone"</span>
+          </li>
+        </ul>
+        <p>
+          <%= lang === 'id'
+            ? 'Mohon berikan waktu yang wajar bagi kami untuk meninjau dan membalas pesan Anda.'
+            : 'Please allow a reasonable amount of time for us to review and respond to your message.' %>
+        </p>
+      </div>
+
+      <h2><%= lang === 'id' ? 'Informasi yang sebaiknya disertakan' : 'What to include in your message' %></h2>
+      <ul>
+        <li><%= lang === 'id'
+          ? 'Judul email yang jelas dan deskriptif.'
+          : 'A clear and descriptive subject line.' %></li>
+        <li><%= lang === 'id'
+          ? 'Penjelasan detail mengenai pertanyaan atau permintaan Anda.'
+          : 'A detailed explanation of your question or request.' %></li>
+        <li><%= lang === 'id'
+          ? 'Untuk DMCA, ikuti format yang dijelaskan pada halaman DMCA.'
+          : 'For DMCA notices, please follow the format described on the DMCA page.' %></li>
+      </ul>
+    </section>
+  </main>
+
+  <%- include('partials/footer') %>
+
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script src="/js/main.js"></script>
+</body>
+</html>
