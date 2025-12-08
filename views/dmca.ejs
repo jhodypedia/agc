@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="<%= lang === 'id' ? 'id' : 'en' %>">
+<head>
+  <meta charset="UTF-8">
+  <title><%= pageTitle %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="description" content="<%= metaDescription %>">
+  <link rel="canonical" href="<%= canonicalUrl %>">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="<%= pageTitle %>">
+  <meta property="og:description" content="<%= metaDescription %>">
+  <meta property="og:url" content="<%= canonicalUrl %>">
+  <meta property="og:image" content="<%= ogImage %>">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="stylesheet" href="/css/styles.css">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+  <script type="application/ld+json">
+    <%- structuredData %>
+  </script>
+</head>
+<body>
+  <%- include('partials/header') %>
+
+  <main class="main-container static-page">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/"><i class="ri-home-4-line"></i> <%= lang === 'id' ? 'Beranda' : 'Home' %></a>
+      <span>›</span>
+      <span class="crumb-current">DMCA / Copyright</span>
+    </nav>
+
+    <section class="static-section" data-aos="fade-up">
+      <h1><i class="ri-copyright-line"></i>
+        DMCA / <%= lang === 'id' ? 'Kebijakan Hak Cipta' : 'Copyright Policy' %>
+      </h1>
+
+      <% if (lang === 'id') { %>
+        <p>
+          StreamingZone menghormati hak kekayaan intelektual para pemilik konten
+          dan berupaya mematuhi hukum hak cipta yang berlaku, termasuk Digital
+          Millennium Copyright Act (DMCA).
+        </p>
+
+        <h2>Sumber konten</h2>
+        <p>
+          Semua metadata film dan serial, poster, serta informasi dasar diambil
+          melalui TMDB API. Trailer resmi di-embed dari platform video pihak
+          ketiga. StreamingZone tidak meng-host file video berhak cipta.
+        </p>
+
+        <h2>Pemberitahuan pelanggaran hak cipta</h2>
+        <p>
+          Jika Anda adalah pemegang hak cipta atau kuasa yang sah dan merasa
+          ada konten di StreamingZone yang melanggar hak Anda, Anda dapat
+          mengirim permintaan penghapusan. Sertakan informasi berikut:
+        </p>
+        <ul>
+          <li>Nama lengkap dan informasi kontak Anda.</li>
+          <li>Deskripsi jelas karya berhak cipta yang dilanggar.</li>
+          <li>URL tepat di StreamingZone tempat konten muncul.</li>
+          <li>Pernyataan bahwa Anda memiliki itikad baik bahwa penggunaan konten tidak diizinkan oleh pemilik hak, agennya, atau hukum.</li>
+          <li>Pernyataan bahwa informasi dalam pemberitahuan akurat, dan Anda berwenang bertindak atas nama pemilik hak cipta.</li>
+        </ul>
+
+        <p>
+          Kirim pemberitahuan melalui detail kontak di halaman
+          <a href="/contact">Kontak</a> dengan judul
+          <strong>"DMCA Request – StreamingZone"</strong>.
+        </p>
+
+        <h2>Penghapusan konten</h2>
+        <p>
+          Setelah menerima pemberitahuan DMCA yang valid, kami akan meninjau
+          permintaan dan, bila diperlukan, menghapus atau menonaktifkan akses ke
+          konten yang dilaporkan dalam waktu yang wajar.
+        </p>
+      <% } else { %>
+        <p>
+          StreamingZone respects the intellectual property rights of content
+          owners and strives to comply with applicable copyright laws, including
+          the Digital Millennium Copyright Act (DMCA).
+        </p>
+
+        <h2>Content sources</h2>
+        <p>
+          All movie and TV metadata, posters and basic information are retrieved
+          via the TMDB API. Official trailers are embedded from third-party video
+          platforms. StreamingZone does not host copyrighted video files.
+        </p>
+
+        <h2>Copyright infringement notice</h2>
+        <p>
+          If you are a copyright holder or an authorized agent and believe that
+          any content on StreamingZone infringes your rights, you may submit a
+          takedown request. Please include at least the following information:
+        </p>
+        <ul>
+          <li>Your full name and contact details.</li>
+          <li>A clear description of the copyrighted work you claim has been infringed.</li>
+          <li>The exact URL(s) on StreamingZone where the material appears.</li>
+          <li>A statement that you have a good faith belief the use is not authorized by the copyright owner, its agent, or the law.</li>
+          <li>A statement that the information in your notice is accurate, and under penalty of perjury, that you are authorized to act on behalf of the owner.</li>
+        </ul>
+
+        <p>
+          Please send your notice through the contact details listed on the
+          <a href="/contact">Contact</a> page with the subject line
+          <strong>"DMCA Request – StreamingZone"</strong>.
+        </p>
+
+        <h2>Removal of content</h2>
+        <p>
+          Upon receiving a valid DMCA notice, we will review the request and, if
+          appropriate, remove or disable access to the reported content in a
+          timely manner.
+        </p>
+      <% } %>
+    </section>
+  </main>
+
+  <%- include('partials/footer') %>
+
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script src="/js/main.js"></script>
+</body>
+</html>
